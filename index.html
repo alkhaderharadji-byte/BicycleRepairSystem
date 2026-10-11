@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CycleCare - Bicycle Repair Management</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <aside class="sidebar" id="sidebar">
+        <div class="brand">
+            <span class="logo">🚲</span>
+            <div>
+                <h2>CycleCare</h2>
+                <small>Repair Management</small>
+            </div>
+        </div>
+
+        <nav>
+            <button class="nav-link active" data-view="dashboard">
+                Dashboard
+            </button>
+            <button class="nav-link" data-view="repairs">
+                Repair Jobs
+            </button>
+            <button class="nav-link" data-view="customers">
+                Customers
+            </button>
+            <button class="nav-link" data-view="inventory">
+                Parts Inventory
+            </button>
+        </nav>
+
+        <div class="workshop-status">
+            <span class="status-dot"></span>
+            Workshop is open
+        </div>
+    </aside>
+
+    <main class="main">
+        <header class="topbar">
+            <button id="menuBtn" class="menu-btn">☰</button>
+            <div>
+                <small>WORKSHOP MANAGEMENT</small>
+                <h1 id="pageTitle">Dashboard</h1>
+            </div>
+            <button class="primary-btn" id="newRepairBtn">
+                + New Repair
+            </button>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section class="view active" id="dashboardView">
+
+            <div class="welcome">
+                <div>
+                    <p>YOUR WORKSHOP AT A GLANCE</p>
+                    <h2>Keep Every Bike Rolling.</h2>
+                    <span>Manage repairs, customers, and bicycle parts.</span>
+                </div>
+                <div class="bike-icon">🚲</div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <p>Active Repairs</p>
+                    <h2 id="activeCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Ready for Pickup</p>
+                    <h2 id="readyCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Customers</p>
+                    <h2 id="customerCount">0</h2>
+                </div>
+
+                <div class="stat-card">
+                    <p>Low Stock Parts</p>
+                    <h2 id="lowStockCount">0</h2>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>Recent Repair Jobs</h3>
+                    <button class="text-btn" data-goto="repairs">
+                        View All →
+                    </button>
+                </div>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>JOB ID</th>
+                                <th>CUSTOMER</th>
+                                <th>BICYCLE</th>
+                                <th>COST</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recentJobs"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>Parts to Restock</h3>
+                </div>
+                <div id="lowStockList" class="stock-list"></div>
+            </div>
+        </section>
+
+        <!-- REPAIR JOBS -->
+        <section class="view" id="repairsView">
+            <div class="section-heading">
+                <div>
+                    <h2>Repair Jobs</h2>
+                    <p>Manage bicycle repair requests.</p>
+                </div>
+                <button class="primary-btn" id="newRepairBtn2">
+                    + Add Repair
+                </button>
+            </div>
+
+            <div class="filters">
+                <input id="repairSearch"
+                       type="search"
+                       placeholder="Search repairs...">
+
+                <select id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option>Received</option>
+                    <option>In Progress</option>
+                    <option>Ready for Pickup</option>
+                    <option>Completed</option>
+                </select>
+            </div>
+
+            <div class="panel table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>JOB ID</th>
+                            <th>CUSTOMER</th>
+                            <th>BICYCLE / ISSUE</th>
+                            <th>DATE</th>
+                            <th>STATUS</th>
+                            <th>COST</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="repairsTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- CUSTOMERS -->
+        <section class="view" id="customersView">
+            <div class="section-heading">
+                <div>
+                    <h2>Customers</h2>
+                    <p>Manage customer contact information.</p>
+                </div>
+                <button class="primary-btn" id="addCustomerBtn">
+                    + Add Customer
+                </button>
+            </div>
+
+            <div class="filters">
+                <input id="customerSearch"
+                       type="search"
+                       placeholder="Search customers...">
+            </div>
+
+            <div class="panel table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>NAME</th>
+                            <th>PHONE</th>
+                            <th>EMAIL</th>
+                            <th>REPAIR JOBS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customersTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- INVENTORY -->
+        <section class="view" id="inventoryView">
+            <div class="section-heading">
+                <div>
+                    <h2>Parts Inventory</h2>
+                    <p>Monitor bicycle parts and supplies.</p>
+                </div>
+                <button class="primary-btn" id="addPartBtn">
+                    + Add Part
+                </button>
+            </div>
+
+            <div class="filters">
+                <input id="partSearch"
+                       type="search"
+                       placeholder="Search parts...">
+
+                <select id="stockFilter">
+                    <option value="">All Stock Levels</option>
+                    <option value="low">Low Stock Only</option>
+                </select>
+            </div>
+
+            <div class="panel table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>PART</th>
+                            <th>SKU</th>
+                            <th>QUANTITY</th>
+                            <th>PRICE</th>
+                            <th>STATUS</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventoryTable"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <footer>
+            CycleCare | Bicycle Repair Management System
+        </footer>
+    </main>
+
+    <!-- NEW REPAIR MODAL -->
+    <div class="modal-backdrop" id="modalBackdrop">
+        <div class="modal">
+            <div class="modal-heading">
+                <h2>New Repair Job</h2>
+                <button id="closeModal" class="close-btn">×</button>
+            </div>
+
+            <form id="repairForm">
+                <label>
+                    Customer Name
+                    <input name="customer" required
+                           placeholder="Enter customer name">
+                </label>
+
+                <label>
+                    Phone Number
+                    <input name="phone" required
+                           placeholder="Enter phone number">
+                </label>
+
+                <label>
+                    Bicycle Type / Model
+                    <input name="bike" required
+                           placeholder="e.g. Mountain Bike">
+                </label>
+
+                <label>
+                    Repair Issue
+                    <textarea name="issue" required
+                              placeholder="Describe the repair"></textarea>
+                </label>
+
+                <label>
+                    Estimated Cost (PHP)
+                    <input name="cost" type="number"
+                           min="0" step="0.01" required>
+                </label>
+
+                <label>
+                    Repair Status
+                    <select name="status">
+                        <option>Received</option>
+                        <option>In Progress</option>
+                        <option>Ready for Pickup</option>
+                        <option>Completed</option>
+                    </select>
+                </label>
+
+                <label>
+                    Received Date
+                    <input name="date" type="date" required>
+                </label>
+
+                <div class="modal-actions">
+                    <button type="button"
+                            class="secondary-btn"
+                            id="cancelModal">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Save Repair
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
